@@ -1,6 +1,6 @@
 # Tepnology Service Desk App
 
-## Basic service desk ticketing application
+## Basic service desk ticketing application with authentication
 
 ### MERN Stack: Mongo DB, Express, React, Node.js
 
