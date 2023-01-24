@@ -5,7 +5,11 @@ import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import { FaPlus } from 'react-icons/fa';
 import { getTicket, closeTicket } from '../features/tickets/ticketSlice';
-import { getNotes, reset as notesReset } from '../features/notes/noteSlice';
+import {
+  getNotes,
+  createNote,
+  reset as notesReset,
+} from '../features/notes/noteSlice';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import NoteItem from '../components/NoteItem';
@@ -32,9 +36,11 @@ function Ticket() {
     (state) => state.tickets,
   );
 
-  const { notes, isLoading: notesIsLoading } = useSelector(
-    (state) => state.notes,
-  );
+  const {
+    notes,
+    isLoading: notesIsLoading,
+    isSuccess: notesIsSuccess,
+  } = useSelector((state) => state.notes);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,8 +66,12 @@ function Ticket() {
   const onNoteSubmit = (e) => {
     e.preventDefault();
 
-    console.log('Submit');
+    dispatch(createNote({ noteText, ticketId }));
     closeModal();
+
+    if (notesIsSuccess) {
+      toast.success('Note added successfully');
+    }
   };
 
   // Open/close modal
